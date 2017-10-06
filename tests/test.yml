@@ -3,5 +3,10 @@
   vars:
     vhost_ip: "*"
     vhost_port: 80
+    vhost_admin: "blah@blah.com"
+    vhost_name: blah.com
+    vhost_aliases:
+      - www.blah.com
+      - blah.blah.com
   roles:
     - apache_vhost

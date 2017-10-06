@@ -12,7 +12,9 @@
 - include_tasks: header.yml
 
 # modules
-# serverinfo
+
+- include_tasks: serverinfo.yml
+
 # alias
 # wsgi
 # directory
@@ -20,5 +22,12 @@
 
 
 - include_tasks: footer.yml
+
+- name: "assemble the conf file"
+  assemble:
+    src: "{{ tmpdir }}"
+    remote_src: true
+    dest: "{{ tmpdir }}/output"
+    regexp: "\\d*-.*"
 
 - debug: var=tmpdir

@@ -1,0 +1,5 @@
+  ServerAdmin {{ vhost_admin }}
+  ServerName {{ vhost_name }}
+{% if vhost_aliases|default() %}
+  ServerAlias {{ vhost_aliases|join(' ') }}
+{% endif %}

@@ -1,0 +1,6 @@
+---
+- name: "add the ServerName(s) and ServerAdmin"
+  template:
+    src: serverinfo.j2
+    dest: "{{ tmpdir }}/20-serverinfo"
+    force: yes
