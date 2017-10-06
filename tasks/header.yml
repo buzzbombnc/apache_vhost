@@ -1,0 +1,6 @@
+---
+- name: "build the VirtualHost open"
+  copy:
+    dest: "{{ tmpdir }}/00-header"
+    force: yes
+    content: "<VirtualHost {{ vhost_ip }}:{{ vhost_port }}>"

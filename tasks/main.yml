@@ -1,0 +1,24 @@
+---
+- import_tasks: validate.yml
+
+- name: "build a temp"
+  tempfile:
+    state: directory
+  register: tmpdir
+
+- set_fact:
+    tmpdir: "{{ tmpdir.path }}"
+
+- include_tasks: header.yml
+
+# modules
+# serverinfo
+# alias
+# wsgi
+# directory
+# logging
+
+
+- include_tasks: footer.yml
+
+- debug: var=tmpdir

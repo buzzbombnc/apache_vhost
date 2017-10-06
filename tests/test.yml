@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  vars:
+    vhost_ip: "*"
+    vhost_port: 80
+  roles:
+    - apache_vhost
