@@ -3,4 +3,6 @@
   copy:
     dest: "{{ tmpdir }}/00-header"
     force: yes
-    content: "<VirtualHost {{ vhost_ip }}:{{ vhost_port }}>"
+    content: |
+      <VirtualHost {{ vhost_ip }}:{{ vhost_port }}>
+

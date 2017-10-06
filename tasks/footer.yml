@@ -3,4 +3,5 @@
   copy:
     dest: "{{ tmpdir }}/99-footer"
     force: yes
-    content: "</VirtualHost>"
+    content: |
+      </VirtualHost>
