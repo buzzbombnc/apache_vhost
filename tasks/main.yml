@@ -11,7 +11,8 @@
 
 - include_tasks: subtasks/header.yml
 
-# modules
+- include_tasks: subtasks/modules.yml
+  when: "vhost_modules is defined"
 
 - include_tasks: subtasks/serverinfo.yml
 

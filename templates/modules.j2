@@ -1,0 +1,6 @@
+{% for m in vhost_modules %}
+  <IfModule !{{ m.module }}>
+    LoadModule {{ m.module }} {{ m.filename }}
+  </IfModule>
+{% endfor %}
+
