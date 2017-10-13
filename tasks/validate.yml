@@ -51,8 +51,16 @@
     msg: "'vhost_type' must be 'static', 'wsgi', or 'redirect'"
 
 - name: "validate vhost_docroot"
-  assert:
-    that: "vhost_docroot is defined"
+  block:
+    - stat:
+        path: "{{ vhost_docroot }}"
+      register: docroot_stat
+
+    - assert:
+        that:
+        - "vhost_docroot is defined"
+        - "docroot_stat.stat.exists"
+        msg: "'vhost_docroot' must exist"
 
 - set_fact:
     vhost_ssl: false
