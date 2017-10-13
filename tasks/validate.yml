@@ -62,7 +62,7 @@
   when: "vhost_ssl is not defined"
 
 - include_tasks: validations/ssl.yml
-  when: "vhost_ssl is true"
+  when: "vhost_ssl"
 
 - include_tasks: validations/modules.yml
   when: "vhost_modules is defined"
