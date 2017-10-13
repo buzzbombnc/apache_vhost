@@ -1,1 +1,62 @@
 ---
+- set_fact:
+    vhost_ip: "*"
+  when: "vhost_ip is not defined"
+
+- set_fact:
+    vhost_port: 80
+  when: "vhost_port is not defined"
+
+- name: "validate vhost_port"
+  assert:
+    that:
+      - "vhost_port is defined"
+      - "vhost_port is number"
+    msg: "'vhost_post' must be defined and a number"
+
+- name: "validate vhost_admin"
+  assert:
+    that:
+      - "vhost_admin is defined"
+      - "'@' in vhost_admin"
+      - "'.' in vhost_admin"
+    msg: "'vhost_admin' must be defined and an email address"
+
+- name: "validate vhost_name"
+  assert:
+    that:
+      - "vhost_name is defined"
+      - "'.' in vhost_name"
+    msg: "'vhost_name' must be defined and a domain name"
+
+- block:
+  - name: "validate vhost_aliases is a list"
+    assert:
+      that: "vhost_aliases is iterable and vhost_aliases is not string"
+
+  - name: "validate each vhost_alias is a domain"
+    assert:
+      that:
+        - "'{{ item }}' is string"
+        - "'.' in '{{ item }}'"
+      msg: "'{{ item }}' must be a domain name"
+    with_items: "{{ vhost_aliases }}"
+  when: "vhost_aliases is defined"
+
+- name: "validate vhost_type"
+  assert:
+    that:
+      - "vhost_type is defined"
+      - "vhost_type|lower in ['static', 'wsgi', 'redirect']"
+    msg: "'vhost_type' must be 'static', 'wsgi', or 'redirect'"
+
+- name: "validate vhost_docroot"
+  assert:
+    that: "vhost_docroot is defined"
+
+- set_fact:
+    vhost_ssl: false
+  when: "vhost_ssl is not defined"
+
+- include_tasks: validations/ssl.yml
+  when: "vhost_ssl is true"
