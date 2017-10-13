@@ -9,11 +9,11 @@
 - set_fact:
     tmpdir: "{{ tmpdir.path }}"
 
-- include_tasks: header.yml
+- include_tasks: subtasks/header.yml
 
 # modules
 
-- include_tasks: serverinfo.yml
+- include_tasks: subtasks/serverinfo.yml
 
 # alias
 # wsgi
@@ -21,7 +21,7 @@
 # logging
 
 
-- include_tasks: footer.yml
+- include_tasks: subtasks/footer.yml
 
 - name: "assemble the conf file"
   assemble:
