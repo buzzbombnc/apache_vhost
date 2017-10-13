@@ -1,0 +1,13 @@
+---
+- name: "validate vhost_modules is a list"
+  assert:
+    that: 'vhost_modules is iterable and vhost_modules is not string'
+
+- name: "validate each vhost_module"
+  assert:
+    that:
+      - "item is mapping"
+      - "'module' in item.keys()"
+      - "'filename' in item.keys()"
+    msg: "'{{ item }}' must be a dictionary with keys 'module' and 'filename'"
+  with_items: "{{ vhost_modules }}"

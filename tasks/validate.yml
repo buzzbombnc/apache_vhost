@@ -63,3 +63,6 @@
 
 - include_tasks: validations/ssl.yml
   when: "vhost_ssl is true"
+
+- include_tasks: validations/modules.yml
+  when: "vhost_modules is defined"
