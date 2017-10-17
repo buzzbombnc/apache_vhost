@@ -13,5 +13,9 @@
     vhost_modules:
       - module: wsgi_module
         filename: lib64/httpd/modules/mod_wsgi.so
+    vhost_locations:
+      /server-status:
+        SetHandler: server-status
+        Require: "ip 127"
   roles:
     - apache_vhost

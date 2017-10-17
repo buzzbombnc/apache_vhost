@@ -66,3 +66,6 @@
 
 - include_tasks: validations/modules.yml
   when: "vhost_modules is defined"
+
+- include_tasks: validations/locations.yml
+  when: "vhost_locations is defined"

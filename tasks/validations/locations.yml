@@ -1,0 +1,14 @@
+---
+- name: "validate vhost_locations is a mapping"
+  assert:
+    that: 'vhost_locations is mapping'
+
+- name: "validate each vhost_location"
+  assert:
+    that:
+      - "'/' in '{{ item.key }}'"
+      - "item.value is mapping"
+    msg: "'{{ item.key }}' must be a dictionary and the key must be a URL"
+  with_dict: "{{ vhost_locations }}"
+
+# TODO: Validation of vhost_locations keys?  Handler/Require
