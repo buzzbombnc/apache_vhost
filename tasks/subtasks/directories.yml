@@ -1,0 +1,6 @@
+---
+- name: "add the Directories"
+  template:
+    src: directories.j2
+    dest: "{{ tmpdir }}/60-directories"
+    force: yes
