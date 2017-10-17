@@ -17,5 +17,9 @@
       /server-status:
         SetHandler: server-status
         Require: "ip 127"
+    vhost_directories:
+      /var/www:
+        Options: "Indexes"
+        Require: "all granted"
   roles:
     - apache_vhost
