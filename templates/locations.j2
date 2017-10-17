@@ -1,0 +1,7 @@
+{% for top in vhost_locations|dictsort %}
+  <Location {{ top.0 }}>
+{% for data in top.1|dictsort %}
+    {{ data.0 }} {{ data.1 }}
+{% endfor %}
+  </Location>
+{% endfor %}
