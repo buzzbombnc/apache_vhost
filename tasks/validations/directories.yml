@@ -6,10 +6,10 @@
 - name: "validate each vhost_directory"
   assert:
     that:
-      - "'/' in '{{ item.key }}'"
+      - "item.key|is_dir or item.key|is_file"
       - "item.value is mapping"
       - "'require' in item.value.keys()|map('lower')"
-    msg: "'{{ item.key }}' must be a dictionary, the key must be a path, the subdict needs a 'Require' key"
+    msg: "'{{ item.key }}' must be a dictionary, the key must be a dir or file, the subdict needs a 'Require' key"
   with_dict: "{{ vhost_directories }}"
 
 # TODO: More validation of vhost_directories keys?  Options/AllowOverride
