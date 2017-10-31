@@ -4,3 +4,5 @@
   ServerAlias {{ vhost_aliases|join(' ') }}
 {% endif %}
 
+  DocumentRoot "{{ vhost_docroot }}"
+
