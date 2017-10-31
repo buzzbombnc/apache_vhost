@@ -70,5 +70,5 @@
 - include_tasks: validations/locations.yml
   when: "vhost_locations is defined"
 
+# Always included because at least 'vhost_docroot' will be added.
 - include_tasks: validations/directories.yml
-  when: "vhost_directories is defined"

@@ -1,4 +1,14 @@
 ---
+- name: "create vhost_directories"
+  set_fact:
+    vhost_directories: {}
+  when: "vhost_directories is not defined"
+
+- name: "add vhost_docroot to vhost_directories"
+  set_fact:
+    vhost_directories: "{{ vhost_directories|combine({ vhost_docroot: { 'Require': 'all granted' } }, recursive=True) }}"
+  when: "vhost_docroot not in vhost_directories.keys()"
+
 - name: "validate vhost_directories is a mapping"
   assert:
     that: 'vhost_directories is mapping'
