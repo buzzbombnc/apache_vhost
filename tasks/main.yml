@@ -27,6 +27,7 @@
 - include_tasks: subtasks/locations.yml
   when: "vhost_locations is defined"
 
+- include_tasks: subtasks/logging.yml
 
 - include_tasks: subtasks/footer.yml
 

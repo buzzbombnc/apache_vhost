@@ -75,3 +75,10 @@
 
 # Always included because at least 'vhost_docroot' will be added.
 - include_tasks: validations/directories.yml
+
+- name: "validate apache_log_dir"
+  assert:
+    that:
+      - "apache_log_dir is defined"
+      - "apache_log_dir|is_dir"
+    msg: "'apache_log_dir' must exist"

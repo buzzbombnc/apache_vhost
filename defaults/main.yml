@@ -1,2 +1,3 @@
 ---
-# defaults file for apache_vhost
+# Log directory.
+apache_log_dir: /var/log/httpd
