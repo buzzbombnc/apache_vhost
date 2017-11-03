@@ -67,6 +67,9 @@
 - include_tasks: validations/modules.yml
   when: "vhost_modules is defined"
 
+- include_tasks: validations/urlaliases.yml
+  when: "vhost_urlaliases is defined"
+
 - include_tasks: validations/locations.yml
   when: "vhost_locations is defined"
 

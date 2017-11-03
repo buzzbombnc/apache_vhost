@@ -1,0 +1,18 @@
+---
+- name: "validate vhost_urlaliases is a list"
+  assert:
+    that: 'vhost_urlaliases is iterable and vhost_urlaliases is not string'
+
+- name: "validate each vhost_urlalias"
+  assert:
+    that:
+      - "item is mapping"
+      - "'urlpath' in item.keys()"
+      - "'/' in item['urlpath']"
+      - "'path' in item.keys()"
+      - "item['path']|is_dir or item['path']|is_file"
+    msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path' must be file or dir"
+  with_items: "{{ vhost_urlaliases }}"
+
+# TODO: Add dir/file to directories list automatically?
+

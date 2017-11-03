@@ -21,5 +21,8 @@
       /var/www:
         Options: "Indexes"
         Require: "all granted"
+    vhost_urlaliases:
+      - urlpath: /meh
+        path: /tmp
   roles:
     - apache_vhost
