@@ -22,6 +22,9 @@
 - include_tasks: subtasks/urlaliases.yml
   when: "vhost_urlaliases is defined"
 
+- include_tasks: subtasks/extracfg.yml
+  when: "vhost_extra_configs is defined"
+
 - include_tasks: subtasks/directories.yml
 
 - include_tasks: subtasks/locations.yml

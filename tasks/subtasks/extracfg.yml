@@ -1,0 +1,6 @@
+---
+- name: "add the extra configuration directives"
+  template:
+    src: extracfg.j2
+    dest: "{{ tmpdir }}/50-extracfg"
+    force: yes
