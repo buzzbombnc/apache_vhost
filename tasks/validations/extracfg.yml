@@ -1,0 +1,9 @@
+---
+- name: "validate vhost_extra_configs is a list"
+  assert:
+    that: 'vhost_extra_configs is iterable and vhost_extra_configs is not string'
+
+- name: "validate each vhost_extra_config"
+  assert:
+    that: "item is string"
+  with_items: "{{ vhost_extra_configs }}"

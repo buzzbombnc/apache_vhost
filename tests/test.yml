@@ -24,5 +24,7 @@
     vhost_urlaliases:
       - urlpath: /meh
         path: /tmp
+    vhost_extra_configs:
+      - "Listen 8080"
   roles:
     - apache_vhost
