@@ -26,6 +26,7 @@
   when: "vhost_extra_configs is defined"
 
 - include_tasks: subtasks/directories.yml
+  when: "vhost_directories is defined"
 
 - include_tasks: subtasks/locations.yml
   when: "vhost_locations is defined"

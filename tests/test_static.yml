@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  vars:
+    vhost_ip: "*"
+    vhost_port: 80
+    vhost_admin: "static@static.com"
+    vhost_name: static.com
+    vhost_aliases:
+      - www.static.com
+    vhost_type: static
+    vhost_docroot: /var/www
+    vhost_locations:
+      /server-status:
+        SetHandler: server-status
+        Require: "ip 127"
+    vhost_directories:
+      /var/www:
+        Options: "Indexes"
+        Require: "all granted"
+    vhost_urlaliases:
+      - urlpath: /meh
+        path: /var/www
+  roles:
+    - apache_vhost

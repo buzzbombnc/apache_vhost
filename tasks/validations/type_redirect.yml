@@ -1,0 +1,20 @@
+---
+- name: "validate vhost_destination"
+  assert:
+    that:
+      - "vhost_destination is defined"
+      - "vhost_destination is string"
+      - "'/' in vhost_destination"
+    msg: "'vhost_destination' must be defined and be a path-like string"
+
+- name: "ensure alias_module is loaded"
+  set_fact:
+    vhost_modules: >
+      {{ vhost_modules|default([]) }} + 
+      [{'module': 'alias_module', 'filename': 'lib64/httpd/modules/mod_alias.so'}]
+
+- name: "add Redirect directive to configuration"
+  set_fact:
+    vhost_extra_configs: >
+      {{ vhost_extra_configs|default([]) }} + 
+      ['Redirect "/" "{{ vhost_destination }}"']

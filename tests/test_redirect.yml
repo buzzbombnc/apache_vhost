@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  vars:
+    vhost_ip: "*"
+    vhost_port: 80
+    vhost_admin: "redirect@redirect.com"
+    vhost_name: redirect.com
+    vhost_aliases:
+      - www.redirect.com
+    vhost_type: redirect
+    vhost_destination: "https://redirect.com"
+  roles:
+    - apache_vhost
