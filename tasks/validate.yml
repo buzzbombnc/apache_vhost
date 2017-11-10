@@ -84,4 +84,4 @@
     msg: "'apache_log_dir' must exist"
 
 - include_tasks: validations/extracfg.yml
-  when: "vhost_extra_configs is defines"
+  when: "vhost_extra_configs is defined"
