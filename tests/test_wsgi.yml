@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  vars:
+    vhost_ip: "*"
+    vhost_port: 80
+    vhost_admin: "wsgi@wsgi.com"
+    vhost_name: wsgi.com
+    vhost_aliases:
+      - www.wsgi.com
+    vhost_docroot: /srv/httpd/test.com/current
+    vhost_type: wsgi
+    vhost_wsgi_scriptaliases:
+      - urlpath: /
+        path: /srv/httpd/test.com/current/tower_of_perfection/wsgi.py
+  roles:
+    - apache_vhost

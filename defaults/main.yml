@@ -1,3 +1,7 @@
 ---
 # Log directory.
 apache_log_dir: /var/log/httpd
+# Default WSGI process count.
+wsgi_proc_count: "{{ ansible_processor_count }}"
+# Default WSGI language.
+wsgi_language: "en_US.UTF-8"

@@ -1,0 +1,65 @@
+---
+- name: "ensure wsgi_module is loaded"
+  set_fact:
+    vhost_modules: >
+      {{ vhost_modules|default([]) }} + 
+      [{'module': 'wsgi_module', 'filename': 'lib64/httpd/modules/mod_wsgi.so'}]
+
+- name: "set vhost_wsgi_name"
+  set_fact:
+    vhost_wsgi_name: "{{ vhost_name }}"
+  when: "vhost_wsgi_name is not defined"
+
+- name: "set vhost_wsgi_procs"
+  set_fact:
+    vhost_wsgi_procs: "{{ wsgi_proc_count }}"
+  when: "vhost_wsgi_procs is not defined"
+
+- name: "validate vhost_wsgi_threads"
+  assert:
+    that: "vhost_wsgi_threads is number"
+  when: "vhost_wsgi_threads is defined"
+
+- name: "validate vhost_wsgi_home"
+  assert:
+    that: "vhost_wsgi_home|is_dir"
+  when: "vhost_wsgi_home is defined"
+
+- name: "set vhost_wsgi_lang"
+  set_fact:
+    vhost_wsgi_lang: "{{ wsgi_language }}"
+  when: "vhost_wsgi_lang is not defined"
+
+- name: "validate vhost_wsgi_pythonhome"
+  assert:
+    that:
+      - "vhost_wsgi_pythonhome|is_dir"
+      - "{{ vhost_wsgi_pythonhome }}/bin/python|is_file"
+    msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
+  when: "vhost_wsgi_pythonhome is defined"
+
+- name: "validate vhost_wsgi_scriptaliases is a list"
+  assert:
+    that: 'vhost_wsgi_scriptaliases is iterable and vhost_wsgi_scriptaliases is not string'
+
+- name: "vhost_directories is empty mapping"
+  set_fact:
+    vhost_directories: {}
+  when: "vhost_directories is not defined"
+
+- name: "validate each vhost_wsgi_scriptalias"
+  assert:
+    that:
+      - "item is mapping"
+      - "'urlpath' in item.keys()"
+      - "'/' in item['urlpath']"
+      - "'path' in item.keys()"
+      - "item['path']|is_file"
+    msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path' must be file"
+  with_items: "{{ vhost_wsgi_scriptaliases }}"
+
+- name: "add each vhost_wsgi_scriptalias to vhost_directories"
+  set_fact:
+    vhost_directories: "{{ vhost_directories|combine({ item.path: { 'Require': 'all granted' } }, recursive=True) }}"
+  when: "item.path not in vhost_directories.keys()"
+  with_items: "{{ vhost_wsgi_scriptaliases }}"
