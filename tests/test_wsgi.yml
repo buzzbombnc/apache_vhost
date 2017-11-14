@@ -9,6 +9,13 @@
       - www.wsgi.com
     vhost_docroot: /srv/httpd/test.com/current
     vhost_type: wsgi
+    vhost_wsgi_procs: 4
+    vhost_wsgi_threads: 8
+    vhost_wsgi_user: wsgiuser
+    vhost_wsgi_group: wsgigroup
+    vhost_wsgi_home: /srv/httpd/test.com/current
+    vhost_wsgi_pythonhome: /srv/httpd/test.com/current/env
+    vhost_wsgi_lang: C
     vhost_wsgi_scriptaliases:
       - urlpath: /
         path: /srv/httpd/test.com/current/tower_of_perfection/wsgi.py
