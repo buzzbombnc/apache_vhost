@@ -1,5 +1,5 @@
 ---
-- name: "add the extra configuration directives"
+- name: "add the WSGI and extra configuration directives"
   template:
     src: extracfg.j2
     dest: "{{ tmpdir }}/50-extracfg"

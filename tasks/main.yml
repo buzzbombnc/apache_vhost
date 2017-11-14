@@ -23,7 +23,7 @@
   when: "vhost_urlaliases is defined"
 
 - include_tasks: subtasks/extracfg.yml
-  when: "vhost_extra_configs is defined"
+  when: "vhost_type == 'wsgi' or vhost_extra_configs is defined"
 
 - include_tasks: subtasks/directories.yml
   when: "vhost_directories is defined"

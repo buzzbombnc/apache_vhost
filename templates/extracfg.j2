@@ -1,4 +1,20 @@
-{% for conf in vhost_extra_configs %}
+{% if vhost_type == 'wsgi' %}
+  WSGIDaemonProcess {{ vhost_wsgi_name }} processes={{ vhost_wsgi_procs }}
+  {%- if vhost_wsgi_threads is defined %} threads={{ vhost_wsgi_threads }}{% endif %}
+  {%- if vhost_wsgi_user is defined %} user={{ vhost_wsgi_user }}{% endif %}
+  {%- if vhost_wsgi_group is defined %} group={{ vhost_wsgi_group }}{% endif %}
+  {%- if vhost_wsgi_home is defined %} home={{ vhost_wsgi_home }}{% endif %}
+  {%- if vhost_wsgi_pythonhome is defined %} python-home={{ vhost_wsgi_pythonhome }}{% endif %}
+  {%- if vhost_wsgi_lang is defined %} lang={{ vhost_wsgi_lang }}{% endif %}
+
+  WSGIProcessGroup {{ vhost_wsgi_name }}
+
+{% for sa in vhost_wsgi_scriptaliases %}
+  WSGIScriptAlias "{{ sa.urlpath }}" "{{ sa.path }}"
+{% endfor %}
+{% endif %}
+
+{% for conf in vhost_extra_configs|default([]) %}
   {{ conf }}
 {% endfor %}
 
