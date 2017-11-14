@@ -34,7 +34,7 @@
   assert:
     that:
       - "vhost_wsgi_pythonhome|is_dir"
-      - "{{ vhost_wsgi_pythonhome }}/bin/python|is_file"
+      - "'{{ vhost_wsgi_pythonhome }}/bin/python'|is_file"
     msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
   when: "vhost_wsgi_pythonhome is defined"
 
