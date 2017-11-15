@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  become: true
   vars:
     vhost_ip: "*"
     vhost_port: 80
