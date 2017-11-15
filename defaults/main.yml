@@ -5,3 +5,7 @@ apache_log_dir: /var/log/httpd
 wsgi_proc_count: "{{ ansible_processor_count }}"
 # Default WSGI language.
 wsgi_language: "en_US.UTF-8"
+# Apache conf.d directory.
+apache_confd_dir: /etc/httpd/conf.d
+# Default index number for this vhost conf file.
+vhost_index: 20
