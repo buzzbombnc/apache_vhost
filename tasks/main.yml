@@ -1,7 +1,7 @@
 ---
 - import_tasks: validate.yml
 
-- name: "build a temp"
+- name: "build a temporary directory for fragments"
   tempfile:
     state: directory
   register: tmpdir
@@ -35,11 +35,18 @@
 
 - include_tasks: subtasks/footer.yml
 
-- name: "assemble the conf file"
+- name: "assemble and validate the configuration file"
   assemble:
     src: "{{ tmpdir }}"
     remote_src: true
-    dest: "{{ tmpdir }}/output"
+    dest: "{{ apache_confd_dir }}/{{ vhost_index }}-{{ vhost_name }}.conf"
+    owner: root
+    group: root
+    mode: 0755
     regexp: "\\d*-.*"
+    validate: "/usr/sbin/httpd -S -C '# %s'"
 
-- debug: var=tmpdir
+- name: "remove the temporary directory"
+  file:
+    path: "{{ tmpdir }}"
+    state: absent
