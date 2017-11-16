@@ -1,5 +1,5 @@
 {% if vhost_type == 'wsgi' %}
-  WSGIDaemonProcess {{ vhost_wsgi_name }} processes={{ vhost_wsgi_procs }}
+  WSGIDaemonProcess {{ vhost_wsgi_name }} display-name=%{GROUP} processes={{ vhost_wsgi_procs }}
   {%- if vhost_wsgi_threads is defined %} threads={{ vhost_wsgi_threads }}{% endif %}
   {%- if vhost_wsgi_user is defined %} user={{ vhost_wsgi_user }}{% endif %}
   {%- if vhost_wsgi_group is defined %} group={{ vhost_wsgi_group }}{% endif %}
