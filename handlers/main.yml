@@ -1,2 +1,4 @@
 ---
-# handlers file for apache_vhost
+- name: restart apache
+  command: "/usr/sbin/apachectl -k restart"
+  become: true

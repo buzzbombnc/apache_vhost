@@ -51,6 +51,8 @@
     group: root
     mode: 0755
     validate: "/usr/sbin/httpd -S -C '# %s'"
+  notify:
+    - restart apache
 
 - name: "remove the temporary directory"
   file:
