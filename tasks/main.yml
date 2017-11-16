@@ -35,15 +35,21 @@
 
 - include_tasks: subtasks/footer.yml
 
-- name: "assemble and validate the configuration file"
+- name: "assemble the configuration file"
   assemble:
     src: "{{ tmpdir }}"
+    remote_src: true
+    dest: "{{ tmpdir }}/assembled"
+    regexp: "\\d*-.*"
+
+- name: "copy and validate the configuration file"
+  copy:
+    src: "{{ tmpdir }}/assembled"
     remote_src: true
     dest: "{{ apache_confd_dir }}/{{ vhost_index }}-{{ vhost_name }}.conf"
     owner: root
     group: root
     mode: 0755
-    regexp: "\\d*-.*"
     validate: "/usr/sbin/httpd -S -C '# %s'"
 
 - name: "remove the temporary directory"
