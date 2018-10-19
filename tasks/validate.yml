@@ -57,8 +57,9 @@
   assert:
     that:
       - "vhost_docroot is defined"
-      - "vhost_docroot is is_dir"
-    msg: "'vhost_docroot' must exist"
+      - "vhost_docroot is abs"
+      - "vhost_docroot is directory"
+    msg: "'vhost_docroot' must exist and be an absolute path"
   when: "vhost_type != 'redirect'"
 
 - set_fact:
