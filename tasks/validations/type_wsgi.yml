@@ -22,7 +22,7 @@
 
 - name: "validate vhost_wsgi_home"
   assert:
-    that: "vhost_wsgi_home|is_dir"
+    that: "vhost_wsgi_home is is_dir"
   when: "vhost_wsgi_home is defined"
 
 - name: "set vhost_wsgi_lang"
@@ -33,8 +33,8 @@
 - name: "validate vhost_wsgi_pythonhome"
   assert:
     that:
-      - "vhost_wsgi_pythonhome|is_dir"
-      - "'{{ vhost_wsgi_pythonhome }}/bin/python'|is_file"
+      - "vhost_wsgi_pythonhome is is_dir"
+      - "'{{ vhost_wsgi_pythonhome }}/bin/python' is is_file"
     msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
   when: "vhost_wsgi_pythonhome is defined"
 
@@ -54,7 +54,7 @@
       - "'urlpath' in item.keys()"
       - "'/' in item['urlpath']"
       - "'path' in item.keys()"
-      - "item['path']|is_file"
+      - "item['path'] is is_file"
     msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path' must be file"
   with_items: "{{ vhost_wsgi_scriptaliases }}"
 

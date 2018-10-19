@@ -57,7 +57,7 @@
   assert:
     that:
       - "vhost_docroot is defined"
-      - "vhost_docroot|is_dir"
+      - "vhost_docroot is is_dir"
     msg: "'vhost_docroot' must exist"
   when: "vhost_type != 'redirect'"
 
@@ -85,14 +85,14 @@
   assert:
     that:
       - "apache_log_dir is defined"
-      - "apache_log_dir|is_dir"
+      - "apache_log_dir is is_dir"
     msg: "'apache_log_dir' must exist"
 
 - name: "validate apache_confd_dir"
   assert:
     that:
       - "apache_confd_dir is defined"
-      - "apache_confd_dir|is_dir"
+      - "apache_confd_dir is is_dir"
     msg: "'apache_confd_dir' must exist"
 
 - include_tasks: validations/extracfg.yml

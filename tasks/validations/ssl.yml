@@ -3,12 +3,12 @@
   assert:
     that:
       - "vhost_sslcert is defined"
-      - "vhost_sslcert|is_file"
+      - "vhost_sslcert is is_file"
     msg: "'vhost_sslcert' must be defined and exist"
 
 - name: "validate vhost_sslcertkey"
   assert:
     that:
       - "vhost_sslcertkey is defined"
-      - "vhost_sslcertkey|is_file"
+      - "vhost_sslcertkey is is_file"
     msg: "'vhost_sslcertkey' must be defined and exist"
