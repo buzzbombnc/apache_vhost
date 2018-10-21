@@ -31,7 +31,7 @@
 
 - name: "validate vhost_wsgi_home"
   assert:
-    that: "vhost_wsgi_home is is_dir"
+    that: "vhost_wsgi_home is directory"
   when: "vhost_wsgi_home is defined"
 
 - name: "set vhost_wsgi_lang"
@@ -39,11 +39,22 @@
     vhost_wsgi_lang: "{{ wsgi_language }}"
   when: "vhost_wsgi_lang is not defined"
 
+
+- name: "locate vhost_wsgi_pythonhome"
+  set_fact:
+    vhost_wsgi_pythonhome: "{{ lookup('first_found', paths) }}"
+  vars:
+    paths:
+      - "{{ vhost_wsgi_pythonhome }}"
+      - "{{ vhost_wsgi_home|default(omit) }}/{{ vhost_wsgi_pythonhome }}"
+      - "{{ vhost_docroot }}/{{ vhost_wsgi_pythonhome }}"
+  when: "vhost_wsgi_pythonhome is defined"
+
 - name: "validate vhost_wsgi_pythonhome"
   assert:
     that:
-      - "vhost_wsgi_pythonhome is is_dir"
-      - "'{{ vhost_wsgi_pythonhome }}/bin/python' is is_file"
+      - "vhost_wsgi_pythonhome is directory"
+      - "'{{ vhost_wsgi_pythonhome }}/bin/python' is file"
     msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
   when: "vhost_wsgi_pythonhome is defined"
 
