@@ -20,6 +20,15 @@
     that: "vhost_wsgi_threads is number"
   when: "vhost_wsgi_threads is defined"
 
+- name: "locate vhost_wsgi_home"
+  set_fact:
+    vhost_wsgi_home: "{{ lookup('first_found', paths) }}"
+  vars:
+    paths:
+      - "{{ vhost_wsgi_home|default(omit) }}"
+      - "{{ vhost_docroot }}/{{ vhost_wsgi_home|default(omit) }}"
+      - "{{ vhost_docroot }}"
+
 - name: "validate vhost_wsgi_home"
   assert:
     that: "vhost_wsgi_home is is_dir"
