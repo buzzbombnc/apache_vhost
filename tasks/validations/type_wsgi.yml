@@ -67,19 +67,9 @@
     vhost_directories: {}
   when: "vhost_directories is not defined"
 
-- name: "validate each vhost_wsgi_scriptalias"
-  assert:
-    that:
-      - "item is mapping"
-      - "'urlpath' in item.keys()"
-      - "'/' in item['urlpath']"
-      - "'path' in item.keys()"
-      - "item['path'] is is_file"
-    msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path' must be file"
-  with_items: "{{ vhost_wsgi_scriptaliases }}"
-
-- name: "add each vhost_wsgi_scriptalias to vhost_directories"
+- name: "vhost_wsgi_absaliases is empty mapping"
   set_fact:
-    vhost_directories: "{{ vhost_directories|combine({ item.path: { 'Require': 'all granted' } }, recursive=True) }}"
-  when: "item.path not in vhost_directories.keys()"
+    vhost_wsgi_absaliases: []
+
+- include_tasks: validations/wsgi_scriptaliases.yml
   with_items: "{{ vhost_wsgi_scriptaliases }}"

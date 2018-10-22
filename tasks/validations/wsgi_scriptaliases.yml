@@ -1,0 +1,34 @@
+---
+- name: "validate each vhost_wsgi_scriptalias"
+  assert:
+    that:
+      - "item is mapping"
+      - "'urlpath' in item.keys()"
+      - "'/' in item['urlpath']"
+      - "'path' in item.keys()"
+    msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path'"
+
+
+- name: "locate vhost_wsgi_scriptalias path"
+  set_fact:
+    this_path: "{{ lookup('first_found', paths) }}"
+  vars:
+    paths:
+      - "{{ item['path'] }}"
+      - "{{ vhost_wsgi_home|default(omit) }}/{{ item['path'] }}"
+      - "{{ vhost_docroot }}/{{ item['path'] }}"
+
+- name: "validate the vhost_wsgi_scriptalias path"
+  assert:
+    that:
+      - "this_path is file"
+    msg: "'{{ this_path }}' must be file"
+
+- name: "update the vhost_wsgi_absaliases fact with absolute paths"
+  set_fact:
+    vhost_wsgi_absaliases: "{{ vhost_wsgi_absaliases + [{'urlpath': item['urlpath'], 'path': this_path}] }}"
+
+- name: "add each vhost_wsgi_scriptalias to vhost_directories and cleaned dictionary"
+  set_fact:
+    vhost_directories: "{{ vhost_directories|combine({ this_path: { 'Require': 'all granted' } }, recursive=True) }}"
+  when: "this_path not in vhost_directories.keys()"

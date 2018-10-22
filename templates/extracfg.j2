@@ -9,7 +9,7 @@
 
   WSGIProcessGroup {{ vhost_wsgi_name }}
 
-{% for sa in vhost_wsgi_scriptaliases %}
+{% for sa in vhost_wsgi_absaliases %}
   WSGIScriptAlias "{{ sa.urlpath }}" "{{ sa.path }}"
 {% endfor %}
 {% endif %}
