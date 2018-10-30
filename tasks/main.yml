@@ -51,6 +51,7 @@
     group: root
     mode: 0755
     validate: "/usr/sbin/httpd -S -C '# %s'"
+  become: true
   notify:
     - restart apache
 
@@ -58,3 +59,4 @@
   file:
     path: "{{ tmpdir }}"
     state: absent
+
