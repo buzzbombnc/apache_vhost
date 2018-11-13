@@ -60,3 +60,8 @@
     path: "{{ tmpdir }}"
     state: absent
 
+- name: "reset apache_vhost facts"
+  set_fact:
+    vhost_directories: {}
+    vhost_modules: []
+    vhost_extra_configs: []
