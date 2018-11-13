@@ -1,14 +1,32 @@
 ---
 - name: "validate vhost_sslcert"
   assert:
-    that:
-      - "vhost_sslcert is defined"
-      - "vhost_sslcert is exists"
-    msg: "'vhost_sslcert' must be defined and exist"
+    that: "vhost_sslcert is defined"
+    msg: "'vhost_sslcert' must be defined"
 
 - name: "validate vhost_sslcertkey"
   assert:
-    that:
-      - "vhost_sslcertkey is defined"
-      - "vhost_sslcertkey is exists"
-    msg: "'vhost_sslcertkey' must be defined and exist"
+    that: "vhost_sslcertkey is defined"
+    msg: "'vhost_sslcertkey' must be defined"
+
+- name: "validate vhost_sslcert exists"
+  stat:
+    path: "{{ vhost_sslcert }}"
+    follow: true
+  register: certexist
+  become: true
+
+- fail:
+    msg: "'vhost_sslcert' must exist as a file or symlink"
+  when: "not certexist.stat.exists or not certexist.stat.isreg"
+
+- name: "validate vhost_sslcertkey exists"
+  stat:
+    path: "{{ vhost_sslcertkey }}"
+    follow: true
+  register: certkeyexist
+  become: true
+
+- fail:
+    msg: "'vhost_sslcertkey' must exist as a file or symlink"
+  when: "not certkeyexist.stat.exists or not certkeyexist.stat.isreg"
