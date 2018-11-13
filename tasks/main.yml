@@ -1,5 +1,5 @@
 ---
-- import_tasks: validate.yml
+- include_tasks: validate.yml
 
 - name: "build a temporary directory for fragments"
   tempfile:
