@@ -7,6 +7,10 @@
     vhost_port: 80
   when: "vhost_port is not defined"
 
+- set_fact:
+    vhost_name: default
+  when: "vhost_name is not defined"
+
 - name: "validate vhost_port"
   assert:
     that:
@@ -17,16 +21,16 @@
 - name: "validate vhost_admin"
   assert:
     that:
-      - "vhost_admin is defined"
       - "'@' in vhost_admin"
       - "'.' in vhost_admin"
-    msg: "'vhost_admin' must be defined and an email address"
+    msg: "'vhost_admin' must be an email address when defined"
+  when: "vhost_admin is defined"
 
 - name: "validate vhost_name"
   assert:
     that:
       - "vhost_name is defined"
-      - "'.' in vhost_name"
+      - "'.' in vhost_name or vhost_name == 'default'"
     msg: "'vhost_name' must be defined and a domain name"
 
 - block:

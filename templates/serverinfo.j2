@@ -1,5 +1,9 @@
+{% if vhost_admin|default() %}
   ServerAdmin {{ vhost_admin }}
+{% endif %}
+{% if vhost_name != 'default' %}
   ServerName {{ vhost_name }}
+{% endif %}
 {% if vhost_aliases|default() %}
   ServerAlias {{ vhost_aliases|join(' ') }}
 {% endif %}

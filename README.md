@@ -18,8 +18,8 @@ The following role variables should be provided:
 | vhost_index         | false    | The index number for this vhost's conf file.  Defaults to 20.  |
 | vhost_ip            | false    | The IP address for this vhost.  Defaults to "*".               |
 | vhost_port          | false    | The port for this vhost.  Defaults to 80.                      |
-| vhost_admin         | true     | The primary admin's email address for the server.              |
-| vhost_name          | true     | The primary domain name of the server.                         |
+| vhost_admin         | false    | The primary admin's email address for the server.              |
+| vhost_name          | false    | The primary domain name of the server.  (Default server)       |
 | vhost_aliases       | false    | A list of alternate server names.                              |
 | vhost_type          | true     | Selection of: static, wsgi, redirect                           |
 | vhost_docroot       | true     | Base document root.  Required for all types except 'redirect'. |
