@@ -16,7 +16,7 @@
 - name: "validate each vhost_directory"
   assert:
     that:
-      - "item.key is is_dir or item.key is is_file"
+      - "item.key is is_dir or item.key is is_file or '*' in item.key"
       - "item.value is mapping"
       - "'require' in item.value.keys()|map('lower')"
     msg: "'{{ item.key }}' must be a dictionary, the key must be a dir or file, the subdict needs a 'Require' key"
