@@ -85,7 +85,9 @@ Structures
 
 'vhost_directories' is a dictionary of dictionaries.  The internal dictionary is more free-form:
 * key - is a local directory or filename.
-* value - is a dictionary of setting-values, where 'require' is a required setting.
+* value - is a dictionary of setting-values:
+  * 'require' is a required setting for access.
+  * 'type' must be either 'directory' or 'file'.
 * NOTE: 'vhost_docroot' will be added automatically with 'require all granted', if the key doesn't exist.
 
 'vhost_wsgi_scriptaliases' is a list of dictionaries.  Each dictionary requires two keys:

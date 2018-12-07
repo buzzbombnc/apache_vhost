@@ -10,7 +10,8 @@
       - "'urlpath' in item.keys()"
       - "'/' in item['urlpath']"
       - "'path' in item.keys()"
-      - "item['path'] is is_dir or item['path'] is is_file"
+      # TODO: Tough without subtask.
+      # - "item['path'] is is_dir or item['path'] is is_file"
     msg: "'{{ item }}' must be a dictionary with keys 'urlpath' and 'path' must be file or dir"
   with_items: "{{ vhost_urlaliases }}"
 

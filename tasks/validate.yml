@@ -57,13 +57,22 @@
 - include_tasks: "validations/type_{{ vhost_type }}.yml"
   when: "vhost_type != 'static'"
 
-- name: "validate vhost_docroot"
-  assert:
-    that:
-      - "vhost_docroot is defined"
-      - "vhost_docroot is abs"
-      - "vhost_docroot is directory"
-    msg: "'vhost_docroot' must exist and be an absolute path"
+- block:
+    - name: "validate vhost_docroot"
+      assert:
+        that:
+          - "vhost_docroot is defined"
+          - "vhost_docroot is abs"
+        msg: "'vhost_docroot' must exist be an absolute path"
+
+    - name: "ensure vhost_docroot exists"
+      stat:
+        path: "{{ vhost_docroot }}"
+      register: vdt
+
+    - fail:
+        msg: "'vhost_docroot' must exist if not using a wildcard"
+      when: "'*' not in vhost_docroot and not vdt.stat.exists"
   when: "vhost_type != 'redirect'"
 
 - set_fact:
@@ -87,18 +96,22 @@
   when: "vhost_type != 'redirect'"
 
 - name: "validate apache_log_dir"
-  assert:
-    that:
-      - "apache_log_dir is defined"
-      - "apache_log_dir is is_dir"
+  stat:
+    path: "{{ apache_log_dir }}"
+  register: ald
+
+- fail:
     msg: "'apache_log_dir' must exist"
+  when: "not ald.stat.exists"
 
 - name: "validate apache_confd_dir"
-  assert:
-    that:
-      - "apache_confd_dir is defined"
-      - "apache_confd_dir is is_dir"
+  stat:
+    path: "{{ apache_confd_dir }}"
+  register: acd
+
+- fail:
     msg: "'apache_confd_dir' must exist"
+  when: "not acd.stat.exists"
 
 - include_tasks: validations/extracfg.yml
   when: "vhost_extra_configs is defined"

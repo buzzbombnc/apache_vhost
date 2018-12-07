@@ -30,15 +30,19 @@
       - "{{ vhost_docroot }}"
 
 - name: "validate vhost_wsgi_home"
-  assert:
-    that: "vhost_wsgi_home is directory"
+  stat:
+    path: "{{ vhost_wsgi_home }}"
+  register: vwh
   when: "vhost_wsgi_home is defined"
+
+- fail:
+    msg: "'vhost_wsgi_home' must exist"
+  when: "vhost_wsgi_home is defined and not vwh.stat.exists"
 
 - name: "set vhost_wsgi_lang"
   set_fact:
     vhost_wsgi_lang: "{{ wsgi_language }}"
   when: "vhost_wsgi_lang is not defined"
-
 
 - name: "locate vhost_wsgi_pythonhome"
   set_fact:
@@ -51,12 +55,23 @@
   when: "vhost_wsgi_pythonhome is defined"
 
 - name: "validate vhost_wsgi_pythonhome"
-  assert:
-    that:
-      - "vhost_wsgi_pythonhome is directory"
-      - "'{{ vhost_wsgi_pythonhome }}/bin/python' is file"
-    msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
+  stat:
+    path: "{{ vhost_wsgi_pythonhome }}"
+  register: vwph
   when: "vhost_wsgi_pythonhome is defined"
+
+- fail:
+    msg: "'vhost_wsgi_pythonhome' must be a directory"
+  when: "vhost_wsgi_pythonhome is defined and not vwph.stat.isdir"
+
+- name: "validate vhost_wsgi_pythonhome has Python executable"
+  stat:
+    path: "{{ vhost_wsgi_pythonhome }}/bin/python"
+  register: vwphp
+
+- fail:
+    msg: "'{{ vhost_wsgi_pythonhome }}' must be a directory with 'bin/python' available."
+  when: "vhost_wsgi_pythonhome is defined and not vwphp.stat.executable"
 
 - name: "validate vhost_wsgi_scriptaliases is a list"
   assert:

@@ -1,14 +1,14 @@
 {% for top in vhost_directories|dictsort %}
-{% if top.0 is is_dir or '*' in top.0%}
+{% if top.1.type == 'directory' %}
   <Directory "{{ top.0 }}">
-{% else %}
+{% elif top.1.type == 'file' %}
   <Directory "{{ top.0|dirname }}">
     <Files "{{ top.0|basename }}">
 {% endif %}
-{% for data in top.1|dictsort %}
+{% for data in top.1|dictsort if data.0 != 'type' %}
       {{ data.0 }} {{ data.1 }}
 {% endfor %}
-{% if top.0 is is_file %}
+{% if top.1.type == 'file' %}
     </Files>
 {% endif %}
   </Directory>

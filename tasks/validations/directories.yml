@@ -6,7 +6,7 @@
 
 - name: "add vhost_docroot to vhost_directories"
   set_fact:
-    vhost_directories: "{{ vhost_directories|combine({ vhost_docroot: { 'Require': 'all granted' } }, recursive=True) }}"
+    vhost_directories: "{{ vhost_directories|combine({ vhost_docroot: { 'Require': 'all granted', 'type': 'directory' } }, recursive=True) }}"
   when: "vhost_docroot not in vhost_directories.keys()"
 
 - name: "validate vhost_directories is a mapping"
@@ -16,10 +16,12 @@
 - name: "validate each vhost_directory"
   assert:
     that:
-      - "item.key is is_dir or item.key is is_file or '*' in item.key"
+      # TODO: This is tough.
+#      - "item.key is is_dir or item.key is is_file or '*' in item.key"
       - "item.value is mapping"
       - "'require' in item.value.keys()|map('lower')"
-    msg: "'{{ item.key }}' must be a dictionary, the key must be a dir or file, the subdict needs a 'Require' key"
+      - "'type' in item.value.keys()|map('lower')"
+    msg: "'{{ item.key }}' must be a dictionary, the key must be a dir or file, the subdict needs 'Require' and 'type' keys"
   with_dict: "{{ vhost_directories }}"
 
 # TODO: More validation of vhost_directories keys?  Options/AllowOverride

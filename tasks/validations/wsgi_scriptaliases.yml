@@ -19,10 +19,13 @@
       - "{{ vhost_docroot }}/{{ item['path'] }}"
 
 - name: "validate the vhost_wsgi_scriptalias path"
-  assert:
-    that:
-      - "this_path is file"
+  stat:
+    path: "{{ this_path }}"
+  register: tp
+
+- fail:
     msg: "'{{ this_path }}' must be file"
+  when: "not tp.stat.isreg"
 
 - name: "update the vhost_wsgi_absaliases fact with absolute paths"
   set_fact:
@@ -30,5 +33,5 @@
 
 - name: "add each vhost_wsgi_scriptalias to vhost_directories and cleaned dictionary"
   set_fact:
-    vhost_directories: "{{ vhost_directories|combine({ this_path: { 'Require': 'all granted' } }, recursive=True) }}"
+    vhost_directories: "{{ vhost_directories|combine({ this_path: { 'Require': 'all granted', 'type': 'file' } }, recursive=True) }}"
   when: "this_path not in vhost_directories.keys()"
